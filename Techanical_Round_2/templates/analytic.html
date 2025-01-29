@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ analytic }} - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #chart {
+            width: 300px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ analytic }}</h1>
+    <div id="chart">
+        <canvas id="myChart" width="300" height="200"></canvas>
+    </div>
+    <a href="/">Back to Dashboard</a>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const chartType = "{{ data.chart_type }}";
+        const chartData = "{{ data.data | tojson }}";
+        
+        const labels = chartData.dates || Array.from({length: chartData.length}, (_, i) => i + 1);
+        const datasets = [];
+
+        if (chartType === 'line') {
+            datasets.push({
+                label: '{{ analytic }}',
+                data: chartData.user_counts || chartData.join_counts || chartData,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            });
+
+            if (chartData.leave_counts) {
+                datasets.push({
+                    label: 'Leave Counts',
+                    data: chartData.leave_counts,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    fill: false
+                });
+            }
+        } else if (chartType === 'bar') {
+            datasets.push({
+                label: '{{ analytic }}',
+                data: chartData.message_counts || chartData,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            });
+        }
+
+        new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

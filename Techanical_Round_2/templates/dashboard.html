@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <form action="/analytics" method="post">
+        <label for="analytic">Choose an analytic:</label>
+        <select name="analytic" id="analytic">
+            {% for analytic in analytics_list %}
+            <option value="{{ analytic }}">{{ analytic }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Show Analytic">
+    </form>
+</body>
+</html>
