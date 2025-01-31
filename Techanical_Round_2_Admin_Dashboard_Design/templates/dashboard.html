@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #333;
+            padding: 40px;
+            border-radius: 8px;
+            width: 60%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        select {
+            background-color: #555;
+            color: #f0f0f0;
+            border: 1px solid #666;
+            padding: 10px;
+            border-radius: 5px;
+            width: 80%;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <form action="/analytics" method="post">
+            <label for="analytic">Choose an analytic:</label>
+            <select name="analytic" id="analytic">
+                {% if analytics_list %}
+                {% for analytic in analytics_list %}
+                <option value="{{ analytic }}">{{ analytic }}</option>
+                {% endfor %}
+                {% else %}
+                <option value="">No analytics available</option>
+                {% endif %}
+                </select>               
+            <input type="submit" value="Show Analytic">
+        </form>
+    </div>
+</body>
+</html>
